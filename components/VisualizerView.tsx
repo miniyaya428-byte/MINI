@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Wand2, Loader2, Image as ImageIcon, Sofa, BedDouble, Utensils, Bath, Coffee, Grid3X3 } from 'lucide-react';
+import { Wand2, Loader2, Image as ImageIcon, Sofa, BedDouble, Utensils, Bath, Coffee, Grid3X3, Download } from 'lucide-react';
 import { generateDesignImage } from '../services/geminiService';
 
 interface SpaceConfig {
@@ -115,6 +115,17 @@ export const VisualizerView: React.FC = () => {
     }
   };
 
+  const handleDownload = () => {
+    if (currentImage) {
+      const link = document.createElement('a');
+      link.href = currentImage;
+      link.download = `MSpace_${selectedSpace.name}_${Date.now()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="pb-24 px-4 pt-6 max-w-md mx-auto h-full flex flex-col">
        <div className="mb-6">
@@ -140,13 +151,22 @@ export const VisualizerView: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center min-h-[300px] bg-stone-100 rounded-3xl border border-dashed border-stone-300 relative overflow-hidden shadow-inner transition-all">
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[300px] bg-stone-100 rounded-3xl border border-dashed border-stone-300 relative overflow-hidden shadow-inner transition-all group">
         {currentImage ? (
-          <img 
-            src={currentImage} 
-            alt={`AI Generated ${selectedSpace.name}`} 
-            className="w-full h-full object-cover animate-in fade-in duration-700"
-          />
+          <>
+            <img 
+              src={currentImage} 
+              alt={`AI Generated ${selectedSpace.name}`} 
+              className="w-full h-full object-cover animate-in fade-in duration-700"
+            />
+            <button 
+              onClick={handleDownload}
+              className="absolute top-3 right-3 p-2.5 bg-white/90 hover:bg-white text-stone-700 rounded-full shadow-md backdrop-blur-sm transition-all hover:scale-105 active:scale-95 z-20 opacity-0 group-hover:opacity-100 focus:opacity-100"
+              title="下載圖片"
+            >
+              <Download size={20} />
+            </button>
+          </>
         ) : (
           <div className="text-center p-6">
             <div className="bg-white p-4 rounded-full inline-flex mb-4 shadow-sm">

@@ -28,7 +28,7 @@ const ConceptSection: React.FC<ConceptSectionProps> = ({
       
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 text-left relative z-10 active:bg-stone-50 transition-colors focus:outline-none"
+        className="w-full flex items-center justify-between p-6 text-left relative z-10 active:bg-stone-50 transition-colors focus:outline-none touch-manipulation"
         aria-expanded={isOpen}
       >
         <div className="flex items-center gap-3 overflow-hidden">
@@ -45,11 +45,17 @@ const ConceptSection: React.FC<ConceptSectionProps> = ({
         </div>
       </button>
 
-      {isOpen && (
-        <div className="px-6 pb-6 animate-in slide-in-from-top-1 fade-in duration-200 border-t border-stone-50 pt-4">
-          {children}
+      <div 
+        className={`grid transition-all duration-300 ease-in-out ${
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-6 pb-6 pt-2 border-t border-stone-50">
+            {children}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
