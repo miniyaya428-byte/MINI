@@ -16,7 +16,6 @@ export const generateDesignImage = async (prompt: string): Promise<string | null
       config: {
         imageConfig: {
           aspectRatio: "1:1", // Square for mobile view
-          numberOfImages: 1,
         }
       }
     });
